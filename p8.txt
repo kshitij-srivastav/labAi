@@ -1,0 +1,22 @@
+#program 8
+from sklearn import datasets
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+
+iris=datasets.load_iris()
+print('IRIS Features / Target Names ',iris.target_names)
+for i in range(len(iris.target_names)):
+  print('[{0}] : [{1}] \n'.format(i,iris.target_names[i]))
+x_train,x_test,y_train,y_test=train_test_split(iris["data"],iris["target"],random_state=0)
+kn=KNeighborsClassifier(n_neighbors=1)
+kn.fit(x_train,y_train)
+x_new=np.array([[5,2.9,1,0.2]])
+prediction=kn.predict(x_new)
+print('target value pridicted\n',prediction)
+print('pridicted feature ',iris["target"][prediction])
+for i in range(len(x_test)):
+  x_new=np.array(x_test[i])
+  print('[{0}][{1}]\t predicted : {2} {3} \n'.format(y_test[i],iris["target_names"][y_test[i]],prediction,iris["target_names"][prediction]))
+print("Test Score (accuracy) : {: .2f}".format(kn.score(x_test,y_test)))
+
